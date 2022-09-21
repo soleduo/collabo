@@ -8,7 +8,7 @@ public class Customer
     private int happinessLevel = 3;
     private float decayRate = 3f;
     private CustomerStateMachine stateMachine;
-    private int order;
+    private FoodOrder order;
     private float eatingDuration;
 
     public TableViewDebug viewDebug;
@@ -25,8 +25,6 @@ public class Customer
         this.table = table;
         viewDebug = table.GetComponent<TableViewDebug>();
 
-
-        order = Random.Range(0, 4);
         eatingDuration = 10f;
 
         stateMachine = new CustomerStateMachine(this);

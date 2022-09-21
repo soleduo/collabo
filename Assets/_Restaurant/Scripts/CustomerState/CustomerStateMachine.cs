@@ -71,7 +71,7 @@
         currentState.SetOwner(owner, this);
         currentState.StateEnter();
 
-        UnityEngine.Debug.Log("State Switched " + currentState.GetType().ToString());
+        //UnityEngine.Debug.Log("State Switched " + currentState.GetType().ToString());
 
         enabled = true;
     }

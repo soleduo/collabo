@@ -16,7 +16,6 @@
     {
         timeInState = 0f;
         owner.viewDebug.image.color = owner.viewDebug.state_TakingOrder;
-
     }
 
     public override void StateUpdate()
@@ -25,7 +24,15 @@
             stateMachine.SwitchState(stateMachine.state_WaitForFood);
 
         timeInState += UnityEngine.Time.deltaTime;
-        UnityEngine.Debug.Log("Taking order " + timeInState);
+        //UnityEngine.Debug.Log("Taking order " + timeInState);
 
+    }
+
+    public override void StateExit()
+    {
+        //randomize order
+        //player.addOrder
+
+        base.StateExit();
     }
 }

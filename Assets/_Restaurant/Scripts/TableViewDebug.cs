@@ -17,7 +17,7 @@ public class TableViewDebug : MonoBehaviour
     private void Start()
     {
         table.OnCustomerLeft += () => { image.color = state_TableDirty; };
-        table.OnTableCleaned += () => { image.color = state_Empty; };
+        table.OnTableCleaned += () => { if(!table.IsOccupied) image.color = state_Empty; };
     }
 
 }

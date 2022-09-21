@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System.Linq;
 
 public class Table : MonoBehaviour, IPointerClickHandler
 {
@@ -10,6 +11,11 @@ public class Table : MonoBehaviour, IPointerClickHandler
     private Customer customer = null;
 
     private float defaultCustomerTimer = 30f;
+
+    private Placeholder playerPlaceholder;
+    private Placeholder customerPlaceholder;
+    private Placeholder foodPlaceholder;
+
     public float customerTimer = 0f;
 
     public bool IsDirty { get { return isDirty; } }
@@ -21,10 +27,17 @@ public class Table : MonoBehaviour, IPointerClickHandler
     public event VoidEvent OnFoodDelivered;
     public event VoidEvent OnCustomerLeft;
 
+
+
     // Start is called before the first frame update
     void Start()
     {
         customerTimer = Random.Range(5, 16);
+        List<Placeholder> ph = GetComponentsInChildren<Placeholder>().ToList();
+
+        playerPlaceholder = ph.Find((p) => p.acceptedType == EPlaceholderType.PLAYER);
+        customerPlaceholder = ph.Find((p) => p.acceptedType == EPlaceholderType.CUSTOMER);
+        foodPlaceholder = ph.Find((p) => p.acceptedType == EPlaceholderType.FOOD);
     }
 
     // Update is called once per frame
@@ -53,6 +66,7 @@ public class Table : MonoBehaviour, IPointerClickHandler
     public void RemoveCustomer()
     {
         customer = null;
+        isDirty = true;
         OnCustomerLeft?.Invoke();
     }
 
@@ -69,7 +83,7 @@ public class Table : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        StartCoroutine(Player.Instance.MoveToTable(this));
+        StartCoroutine(Player.Instance.MoveTo(playerPlaceholder.transform.position, this));
     }
 
     public void Interact()

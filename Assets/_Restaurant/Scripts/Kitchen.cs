@@ -4,16 +4,21 @@ using UnityEngine;
 
 public class Kitchen : MonoBehaviour
 {
-    public Queue<Food> foodToCook;
+    public Queue<FoodSO> foodToCook;
     public GameObject foodPrefab;
 
 
     public event VoidEvent OnOrderAdded;
 
-    public IEnumerator CookFood(Food food)
+    public IEnumerator CookFood(FoodSO food)
     {
         yield return new WaitForSeconds(food.cookDuration);
 
 
+    }
+
+    public void AddFoodToCook(FoodOrder order)
+    {
+        //foodToCook.Enqueue();
     }
 }

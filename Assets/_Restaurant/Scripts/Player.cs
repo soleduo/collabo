@@ -7,7 +7,9 @@ public class Player : MonoBehaviour
     private static Player instance;
     public static Player Instance { get { return instance; } }
 
-    public Food food = null;
+    public FoodSO foodOnHand = null;
+    public List<FoodOrder> orders = new List<FoodOrder>();
+
 
     public event VoidEvent OnPlayerArrived;
 
@@ -18,16 +20,54 @@ public class Player : MonoBehaviour
           instance = this;
     }
 
-    public IEnumerator MoveToTable(Table t)
+    public IEnumerator MoveTo(Vector3 targetPos, Table t = null)
     {
-        Vector2 dir = (t.transform.position - transform.position).normalized;
+        Vector2 dir = (targetPos - transform.position).normalized;
+        Vector3 moveVector = ((Vector3.up * dir.y) + (Vector3.right * dir.x));
 
-        while ((t.transform.position - transform.position).sqrMagnitude > 0.5f) {
-            transform.position += (Vector3.up * dir.y * 2f * Time.deltaTime) + (Vector3.right * dir.x * 3f * Time.deltaTime);
+
+        while ((targetPos - transform.position).sqrMagnitude > 0.05f) {
+            transform.position += moveVector * 3f * Time.deltaTime;
+            GameBoard.Instance.GetNextGrid(transform);
             yield return null;
         }
 
-        t.Interact();
+        if(t != null)
+            t.Interact();
     }
 
+    public void AddOrder(FoodOrder order)
+    {
+        if (foodOnHand != null)
+        {
+            return;
+        }
+
+        orders.Add(order);
+    }
+
+    public void DumpOrder(Kitchen target)
+    {
+        foreach(FoodOrder order in orders)
+        {
+
+        }
+    }
+}
+
+public class FoodOrder
+{
+    public int foodId;
+    public Customer owner;
+
+    public FoodOrder(Customer c, int foodId)
+    {
+        owner = c;
+        this.foodId = foodId;
+    }
+
+    public FoodSO GetFood()
+    {
+        return ScriptableItemManager.Instance.foodItems.GetItemById(foodId);
+    }
 }
