@@ -9,6 +9,7 @@ public class Table : MonoBehaviour, IPointerClickHandler
     private bool hasFood = false;
     private bool isDirty = false;
     private Customer customer = null;
+    private GameObject customerPrefab;
 
     private float defaultCustomerTimer = 30f;
 
@@ -46,7 +47,7 @@ public class Table : MonoBehaviour, IPointerClickHandler
         if (customerTimer <= 0)
         {
             if (customer == null)
-                AddCustomer(new Customer(this));
+                AddCustomer(ScriptableItemManager.Instance.customerItems.GetItemById(0));
 
             customerTimer = defaultCustomerTimer;
         }
@@ -57,15 +58,28 @@ public class Table : MonoBehaviour, IPointerClickHandler
             customer.Update();
     }
 
-    public void AddCustomer(Customer c)
+    public void AddCustomer(CustomerSO c)
     {
-        customer = c;
-        OnCustomerAdded?.Invoke(c);
+        customer = new Customer(this, c);
+
+        if (customerPrefab == null)
+        {
+            customerPrefab = Instantiate(c.prefab);
+            customerPrefab.transform.position = customerPlaceholder.transform.position;
+            GameBoard.Instance.GetNextGrid(customerPrefab.transform);
+        }
+
+        customerPrefab.GetComponentInChildren<SpriteRenderer>().sprite = c.icon;
+        customerPrefab.SetActive(true);
+
+        OnCustomerAdded?.Invoke(customer);
     }
 
     public void RemoveCustomer()
     {
         customer = null;
+        customerPrefab.SetActive(false);
+
         isDirty = true;
         OnCustomerLeft?.Invoke();
     }

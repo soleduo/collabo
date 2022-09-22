@@ -8,6 +8,7 @@ public class ScriptableItemManager : MonoBehaviour
     public static ScriptableItemManager Instance { get { return instance; } }
 
     public FoodContainerSO foodItems;
+    public CustomerContainerSO customerItems;
 
     private void Awake()
     {

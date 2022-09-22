@@ -5,6 +5,7 @@ using UnityEngine;
 public class ScalingGrid
 {
     public int orderInLayer;
+    public float scaleFactor;
     private GridBound bounds;
 
     public GridBound Bounds { get { return bounds; } }
@@ -14,7 +15,6 @@ public class ScalingGrid
         this.bounds = bounds;
         this.orderInLayer = orderInLayer;
     }
-
 }
 
 public class GridBound

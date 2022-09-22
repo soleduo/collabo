@@ -57,17 +57,13 @@ public class Player : MonoBehaviour
 
 public class FoodOrder
 {
-    public int foodId;
+    public FoodSO food;
     public Customer owner;
 
-    public FoodOrder(Customer c, int foodId)
+    public FoodOrder(Customer c, FoodSO foodId)
     {
         owner = c;
-        this.foodId = foodId;
+        this.food = foodId;
     }
 
-    public FoodSO GetFood()
-    {
-        return ScriptableItemManager.Instance.foodItems.GetItemById(foodId);
-    }
 }

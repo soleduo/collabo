@@ -20,12 +20,15 @@ public class Customer
 
 
 
-    public Customer(Table table)
+    public Customer(Table table, CustomerSO data)
     {
         this.table = table;
         viewDebug = table.GetComponent<TableViewDebug>();
 
-        eatingDuration = 10f;
+        decayRate = data.happinessDecayRate;
+        int i = Random.Range(0, data.possibleFoodToOrder.Length);
+        order = new FoodOrder(this, data.possibleFoodToOrder[i]);
+        eatingDuration = data.eatingDuration;
 
         stateMachine = new CustomerStateMachine(this);
     }

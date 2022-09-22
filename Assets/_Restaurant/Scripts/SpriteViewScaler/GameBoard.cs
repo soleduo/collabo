@@ -22,6 +22,8 @@ public class GameBoard : MonoBehaviour
         int j = 0;
         float a = 1.75f;
         float origin = -4.5f;
+        
+
         for (int i = maxOrderInLayer; i > 0; i--)
         {
             ScalingGrid grid = new ScalingGrid(new GridBound(origin + a * 0.5f, a), i);
@@ -42,7 +44,7 @@ public class GameBoard : MonoBehaviour
     public ScalingGrid GetNextGrid(Transform t)
     {
         ScalingGrid _grid = null;
-        for(int i = 0; i < grids.Count; i++)
+        for (int i = 0; i < grids.Count; i++)
         {
             float y = t.transform.position.y - grids[i].Bounds.MidPoint;
 
